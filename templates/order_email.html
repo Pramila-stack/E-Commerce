@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .product-img {
+            width: 120px;
+            height: auto;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🛍️ Thank you for your order!</h2>
+
+<p><strong>Name:</strong> {{ user.full_name }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<p><strong>Address:</strong> {{ user.address }}</p>
+
+<hr>
+
+<h3>📦 Order Details:</h3>
+
+{% for item in cart_items %}
+<div class="box">
+    <p><strong>{{ item.product.name }}</strong></p>
+    <p>Quantity: {{ item.quantity }}</p>
+    <p>Subtotal: ${{ item.subtotal }}</p>
+
+    {% if item.product.image %}
+        <!-- ✅ Embedded image -->
+        <img src="cid:image_{{ item.product.id }}" class="product-img">
+    {% endif %}
+</div>
+{% endfor %}
+
+<hr>
+
+<h3>💰 Total: ${{ total }}</h3>
+
+<p>We will process your order soon 🚀</p>
+
+</body>
+</html>
+
