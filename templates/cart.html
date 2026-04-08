@@ -27,7 +27,7 @@
     {% endfor %}
 </table>
 <h2><strong>Total:</strong>{{ total }}</h2>
-<a href="{% url 'checkout' %}">Checkout</a>
+<a href="{% url 'checkout' %}" class="btn btn-outline-secondary">Checkout</a>
 {% else %}
 <p>No items yet.</p>
 {% endif %}

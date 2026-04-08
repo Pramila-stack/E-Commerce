@@ -153,3 +153,36 @@ class SignupView(CreateView):
     template_name = "registration/signup.html"
     form_class = SignupForm
     success_url = reverse_lazy("login")
+
+
+class WishlistView(LoginRequiredMixin, TemplateView):
+    template_name = "wishlist.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        wishlist = self.request.session.get("wishlist", [])
+        products = Product.objects.filter(id__in=wishlist)
+
+        context["products"] = products
+        return context
+    
+class AddToWishlistView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        wishlist = request.session.get("wishlist", [])
+
+        if pk not in wishlist:
+            wishlist.append(pk)
+
+        request.session["wishlist"] = wishlist
+        return redirect("wishlist")
+    
+class RemoveFromWishlistView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        wishlist = request.session.get("wishlist", [])
+
+        if pk in wishlist:
+            wishlist.remove(pk)
+
+        request.session["wishlist"] = wishlist
+        return redirect("wishlist")

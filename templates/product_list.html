@@ -2,21 +2,25 @@
 {% block content %}
 
 <form action="" method="get">
-    <input type="text" name="q" placeholder="Search by title or category" value="{{ request.GET.q }}">
-    <button type="submit" class="btn btn-outline-secondary">Search</button>
+  <input type="text" name="q" placeholder="Search by title or category" value="{{ request.GET.q }}">
+  <button type="submit" class="btn btn-outline-secondary">Search</button>
 </form>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
-    {% for product in products %}
+  {% for product in products %}
   <div class="col">
     <div class="card h-100">
-        <a href="{% url 'product-detail' product.pk %}">
-            <img src="{{ product.image.url }}" class="card-img-top" alt="..." width="350" height="350">
-        </a>
+      <a href="{% url 'product-detail' product.pk %}">
+        <img src="{{ product.image.url }}" class="card-img-top" alt="..." width="350" height="350">
+      </a>
       <div class="card-body">
-        <h5 class="card-title"><a href="{% url 'product-detail' product.pk %}" class="text-decoration-none fst-italic text-dark">{{ product.name }}</a></h5>
+        <h5 class="card-title"><a href="{% url 'product-detail' product.pk %}"
+            class="text-decoration-none fst-italic text-dark">{{ product.name }}</a></h5>
         <p class="card-text"><strong>Price:</strong>{{ product.price }}</p>
         <p class="card-text"><strong>Category:</strong>{{ product.category }}</p>
+        <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-outline-secondary">
+          ❤️ Add to Wishlist
+        </a>
         <a href="{% url 'add-cart' product.pk %}" class="btn btn-outline-secondary">Add To Cart</a>
 
       </div>

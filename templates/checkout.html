@@ -4,7 +4,7 @@
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Place Order</button>
+    <button type="submit" class="btn btn-outline-success mt">Place Order</button>
 </form>
 
 {% endblock content %}
