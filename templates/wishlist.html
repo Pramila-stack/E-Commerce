@@ -1,34 +1,102 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>My Wishlist ❤️</h2>
+<div class="container py-4">
 
+  <!-- ❤️ TITLE -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">❤️ My Wishlist</h2>
+    <span class="text-muted">{{ products|length }} items</span>
+  </div>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% if products %}
+
+  <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+
     {% for product in products %}
     <div class="col">
-        <div class="card h-100">
-            <a href="{% url 'product-detail' product.pk %}">
-                <img src="{{ product.image.url }}" class="card-img-top" alt="..." width="350" height="350">
-            </a>
-            <div class="card-body">
-                <h5 class="card-title"><a href="{% url 'product-detail' product.pk %}"
-                        class="text-decoration-none fst-italic text-dark">{{ product.name }}</a></h5>
-                <p class="card-text"><strong>Price:</strong>{{ product.price }}</p>
-                <p class="card-text"><strong>Category:</strong>{{ product.category }}</p>
-                <a href="{% url 'remove_from_wishlist' product.id %}" class="btn btn-outline-danger">
-                    Remove ❌
-                </a>
-                <a href="{% url 'add-cart' product.pk %}" class="btn btn-outline-secondary">Add To Cart</a>
 
-            </div>
+      <div class="card h-100 border-0 shadow-sm wishlist-card">
+
+        <!-- IMAGE -->
+        <div class="position-relative overflow-hidden">
+          <a href="{% url 'product-detail' product.pk %}">
+            <img src="{{ product.image.url }}"
+                 class="card-img-top wishlist-img"
+                 alt="{{ product.name }}">
+          </a>
+
+          <!-- REMOVE BUTTON (TOP RIGHT) -->
+          <a href="{% url 'remove_from_wishlist' product.id %}"
+             class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2">
+             ❌
+          </a>
         </div>
+
+        <!-- BODY -->
+        <div class="card-body">
+
+          <h6 class="card-title mb-1">
+            <a href="{% url 'product-detail' product.pk %}"
+               class="text-decoration-none text-dark">
+              {{ product.name }}
+            </a>
+          </h6>
+
+          <small class="text-muted">{{ product.category }}</small>
+
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="fw-bold text-primary">Rs. {{ product.price }}</span>
+          </div>
+
+          <!-- ACTION BUTTON -->
+          <a href="{% url 'add-cart' product.pk %}"
+             class="btn btn-dark w-100 mt-3">
+             🛒 Move to Cart
+          </a>
+
+        </div>
+
+      </div>
+
     </div>
-    {% empty %}
-    <p>No items in wishlist</p>
-
-
     {% endfor %}
 
+  </div>
+
+  {% else %}
+
+  <!-- 💤 EMPTY STATE -->
+  <div class="text-center py-5">
+    <h4 class="mb-3">Your wishlist is empty 💔</h4>
+    <p class="text-muted">Save items you love to buy them later.</p>
+    <a href="/" class="btn btn-primary">Browse Products</a>
+  </div>
+
+  {% endif %}
+
 </div>
+
+<!-- 🎨 STYLES -->
+<style>
+.wishlist-card {
+  transition: 0.3s;
+  border-radius: 12px;
+}
+
+.wishlist-card:hover {
+  transform: translateY(-5px);
+}
+
+.wishlist-img {
+  height: 220px;
+  object-fit: cover;
+  transition: 0.3s;
+}
+
+.wishlist-card:hover .wishlist-img {
+  transform: scale(1.05);
+}
+</style>
+
 {% endblock content %}

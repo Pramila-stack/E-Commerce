@@ -1,10 +1,97 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-outline-success mt">Place Order</button>
-</form>
+<div class="container py-5">
+
+  <div class="row g-4">
+
+    <!-- 🧾 BILLING FORM -->
+    <div class="col-lg-7">
+      <div class="card shadow-sm border-0 p-4">
+
+        <h4 class="mb-4 fw-bold">🧾 Billing Details</h4>
+
+        <form method="post">
+          {% csrf_token %}
+
+          <!-- FULL NAME -->
+          <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            {{ form.full_name }}
+            <div class="text-danger small">{{ form.full_name.errors }}</div>
+          </div>
+
+          <!-- EMAIL -->
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            {{ form.email }}
+            <div class="text-danger small">{{ form.email.errors }}</div>
+          </div>
+
+          <!-- ADDRESS -->
+          <div class="mb-3">
+            <label class="form-label">Address</label>
+            {{ form.address }}
+            <div class="text-danger small">{{ form.address.errors }}</div>
+          </div>
+
+          <!-- CITY + ZIP -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">City</label>
+              {{ form.city }}
+              <div class="text-danger small">{{ form.city.errors }}</div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label">ZIP Code</label>
+              {{ form.zip_code }}
+              <div class="text-danger small">{{ form.zip_code.errors }}</div>
+            </div>
+          </div>
+
+          <!-- PAYMENT -->
+          <div class="mb-4">
+            <label class="form-label">Payment Method</label>
+            {{ form.payment_method }}
+          </div>
+
+          <!-- SUBMIT -->
+          <button type="submit" class="btn btn-dark w-100 py-2">
+            🚀 Place Order
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+
+    <!-- 💰 ORDER SUMMARY -->
+    <div class="col-lg-5">
+      <div class="card shadow-sm border-0 p-4">
+
+        <h5 class="fw-bold mb-3">🛍 Order Summary</h5>
+
+        {% for item in cart_items %}
+        <div class="d-flex justify-content-between mb-2">
+          <span>{{ item.product.name }} (x{{ item.quantity }})</span>
+          <span>Rs. {{ item.subtotal }}</span>
+        </div>
+        {% endfor %}
+
+        <hr>
+
+        <div class="d-flex justify-content-between">
+          <strong>Total</strong>
+          <strong class="text-primary">Rs. {{ total }}</strong>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
 
 {% endblock content %}
+

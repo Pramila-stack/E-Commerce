@@ -1,24 +1,69 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
+<div class="container py-4">
 
-  <div class="col">
-    <div class="card h-100">
-      <img src="{{ product.image.url }}" class="card-img-top" alt="..." width="350" height="350">
-      <div class="card-body">
-        <h5 class="card-title"><a href="" class="text-decoration-none fst-italic text-dark">{{ product.name }}</a></h5>
-        <p class="card-text">{{ product.description }}</p>
-        <p class="card-text"><strong>Price:</strong>{{ product.price }}</p>
-        <p class="card-text"><strong>Category:</strong>{{ product.category }}</p>
-        <p class="card-text"><strong>Stock:</strong>{{ product.stock }}</p>
-        <a href="{% url 'add-cart' product.pk %}" class="btn btn-outline-secondary">Add To Cart</a>
+  <div class="row g-4">
 
-
+    <!-- 🖼 PRODUCT IMAGE -->
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm">
+        <img src="{{ product.image.url }}"
+             class="img-fluid rounded"
+             style="height: 400px; object-fit: cover;">
       </div>
     </div>
+
+    <!-- 📦 PRODUCT DETAILS -->
+    <div class="col-md-6">
+
+      <h2 class="fw-bold">{{ product.name }}</h2>
+      <p class="text-muted">{{ product.category }}</p>
+
+      <hr>
+
+      <!-- 💰 PRICE -->
+      <h3 class="text-primary fw-bold mb-3">
+        Rs. {{ product.price }}
+      </h3>
+
+      <!-- 📄 DESCRIPTION -->
+      <p class="text-secondary">
+        {{ product.description }}
+      </p>
+
+      <!-- 📦 STOCK -->
+      {% if product.stock > 0 %}
+        <p class="text-success fw-semibold">✔ In Stock ({{ product.stock }})</p>
+      {% else %}
+        <p class="text-danger fw-semibold">✖ Out of Stock</p>
+      {% endif %}
+
+      <!-- 🔘 ACTION BUTTONS -->
+      <div class="d-flex gap-3 mt-4">
+
+        <a href="{% url 'add-cart' product.pk %}"
+           class="btn btn-dark px-4">
+           🛒 Add to Cart
+        </a>
+
+        <a href="{% url 'add_to_wishlist' product.id %}"
+           class="btn btn-outline-danger px-4">
+           ❤️ Wishlist
+        </a>
+
+      </div>
+
+    </div>
+
   </div>
 
+  <!-- ⭐ EXTRA SECTION (OPTIONAL) -->
+  <div class="mt-5">
+    <h4>Description</h4>
+    <p class="text-muted">{{ product.description }}</p>
+  </div>
 
 </div>
+
 {% endblock content %}

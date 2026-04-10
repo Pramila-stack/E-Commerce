@@ -1,54 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .box {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        .product-img {
-            width: 120px;
-            height: auto;
-            display: block;
-            margin-top: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Order Confirmation</title>
 </head>
-<body>
 
-<h2>🛍️ Thank you for your order!</h2>
+<body style="margin:0; padding:0; background-color:#f4f4f4; font-family:Arial, sans-serif;">
 
-<p><strong>Name:</strong> {{ user.full_name }}</p>
-<p><strong>Email:</strong> {{ user.email }}</p>
-<p><strong>Address:</strong> {{ user.address }}</p>
+  <!-- 📦 CONTAINER -->
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td align="center">
 
-<hr>
+        <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; margin:20px; border-radius:8px; overflow:hidden;">
 
-<h3>📦 Order Details:</h3>
+          <!-- 🔝 HEADER -->
+          <tr>
+            <td style="background:#0d6efd; color:white; padding:20px; text-align:center;">
+              <h2 style="margin:0;">🛍 MiniStore</h2>
+              <p style="margin:5px 0 0;">Order Confirmation</p>
+            </td>
+          </tr>
 
-{% for item in cart_items %}
-<div class="box">
-    <p><strong>{{ item.product.name }}</strong></p>
-    <p>Quantity: {{ item.quantity }}</p>
-    <p>Subtotal: ${{ item.subtotal }}</p>
+          <!-- 👤 USER INFO -->
+          <tr>
+            <td style="padding:20px;">
+              <h3 style="margin-top:0;">Thank you for your order! 🎉</h3>
 
-    {% if item.product.image %}
-        <!-- ✅ Embedded image -->
-        <img src="cid:image_{{ item.product.id }}" class="product-img">
-    {% endif %}
-</div>
-{% endfor %}
+              <p><strong>Name:</strong> {{ user.full_name }}</p>
+              <p><strong>Email:</strong> {{ user.email }}</p>
+              <p><strong>Address:</strong> {{ user.address }}</p>
+            </td>
+          </tr>
 
-<hr>
+          <!-- 📦 ORDER DETAILS -->
+          <tr>
+            <td style="padding:20px;">
+              <h3>📦 Order Details</h3>
 
-<h3>💰 Total: ${{ total }}</h3>
+              {% for item in cart_items %}
+              <table width="100%" cellpadding="10" cellspacing="0" style="border:1px solid #eee; margin-bottom:10px;">
+                <tr>
 
-<p>We will process your order soon 🚀</p>
+                  <!-- IMAGE -->
+                  <td width="120">
+                    {% if item.product.image %}
+                      <img src="cid:image_{{ item.product.id }}" width="100" style="display:block;">
+                    {% endif %}
+                  </td>
+
+                  <!-- DETAILS -->
+                  <td>
+                    <p style="margin:0;"><strong>{{ item.product.name }}</strong></p>
+                    <p style="margin:5px 0;">Qty: {{ item.quantity }}</p>
+                    <p style="margin:0;">Subtotal: Rs. {{ item.subtotal }}</p>
+                  </td>
+
+                </tr>
+              </table>
+              {% endfor %}
+
+            </td>
+          </tr>
+
+          <!-- 💰 TOTAL -->
+          <tr>
+            <td style="padding:20px; border-top:1px solid #eee;">
+              <h3 style="margin:0;">Total: Rs. {{ total }}</h3>
+            </td>
+          </tr>
+
+          <!-- 🚀 FOOTER -->
+          <tr>
+            <td style="padding:20px; text-align:center; color:#777;">
+              <p style="margin:0;">We will process your order soon 🚀</p>
+              <p style="margin:5px 0 0;">© 2026 MiniStore</p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
 
 </body>
 </html>
-

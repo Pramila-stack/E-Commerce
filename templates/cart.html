@@ -1,35 +1,80 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="container py-4">
 
-<h1>Your Cart</h1>
-{% if cart_items %}
-<table class="table table-bordered">
-    <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Subtotal</th>
-        <th>Image</th>
-        <th>Action</th>
-    </tr>
-    {% for cart in cart_items %}
-    <tr>
-        <td>{{ cart.product.name }}</td>
-        <td>{{ cart.quantity }}</td>
-        <td>{{ cart.subtotal }}</td>
-        <td>
-            <img src="{{ cart.product.image.url }}" alt="" width="60px" height="60px">
-        </td>
-        <td>
-            <a href="{% url 'remove-cart' cart.product.pk %}" class="btn btn-outline-danger">Remove</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-<h2><strong>Total:</strong>{{ total }}</h2>
-<a href="{% url 'checkout' %}" class="btn btn-outline-secondary">Checkout</a>
-{% else %}
-<p>No items yet.</p>
-{% endif %}
+  <h2 class="mb-4 fw-bold">🛒 Your Cart</h2>
+
+  {% if cart_items %}
+  <div class="row g-4">
+
+    <!-- 🛍 CART ITEMS -->
+    <div class="col-lg-8">
+
+      {% for cart in cart_items %}
+      <div class="card mb-3 shadow-sm border-0">
+        <div class="row g-0 align-items-center">
+
+          <!-- IMAGE -->
+          <div class="col-md-3">
+            <img src="{{ cart.product.image.url }}"
+                 class="img-fluid rounded-start"
+                 style="height:120px; object-fit:cover;">
+          </div>
+
+          <!-- DETAILS -->
+          <div class="col-md-6">
+            <div class="card-body">
+              <h5 class="card-title mb-1">{{ cart.product.name }}</h5>
+              <p class="text-muted mb-1">Qty: {{ cart.quantity }}</p>
+              <p class="fw-bold text-primary">Rs. {{ cart.subtotal }}</p>
+            </div>
+          </div>
+
+          <!-- ACTION -->
+          <div class="col-md-3 text-center">
+            <a href="{% url 'remove-cart' cart.product.pk %}"
+               class="btn btn-outline-danger btn-sm">
+               Remove
+            </a>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+
+    <!-- 💰 SUMMARY -->
+    <div class="col-lg-4">
+      <div class="card shadow-sm border-0 p-3">
+
+        <h5 class="fw-bold mb-3">Order Summary</h5>
+
+        <div class="d-flex justify-content-between mb-2">
+          <span>Total</span>
+          <strong>Rs. {{ total }}</strong>
+        </div>
+
+        <hr>
+
+        <a href="{% url 'checkout' %}" class="btn btn-dark w-100">
+          Proceed to Checkout
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+
+  {% else %}
+  <!-- 💤 EMPTY CART -->
+  <div class="text-center py-5">
+    <h4 class="mb-3">Your cart is empty 🛍</h4>
+    <a href="/" class="btn btn-primary">Continue Shopping</a>
+  </div>
+  {% endif %}
+
+</div>
 
 {% endblock content %}

@@ -1,10 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1 style="color: pink;">Thank You</h1>
+<div class="container py-5 text-center">
 
-<p>Your order has been successfully placed</p>
+  <!-- ✅ SUCCESS ICON -->
+  <div class="mb-4">
+    <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center"
+         style="width: 80px; height: 80px; font-size: 2rem;">
+      ✔
+    </div>
+  </div>
 
-<a href="{% url 'product-list' %}">Continue Shopping</a>
+  <!-- 🎉 MESSAGE -->
+  <h2 class="fw-bold mb-3">Thank You for Your Order!</h2>
+  <p class="text-muted mb-4">
+    Your order has been placed successfully. We’ll process it shortly 🚀
+  </p>
+
+  <!-- 📦 OPTIONAL ORDER INFO -->
+  <div class="card shadow-sm border-0 mx-auto mb-4" style="max-width: 400px;">
+    <div class="card-body">
+      <p class="mb-1"><strong>Order ID:</strong> #{{ order.id }}</p>
+      <p class="mb-0"><strong>Total Paid:</strong> Rs. {{ order.total }}</p>
+    </div>
+  </div>
+
+  <!-- 🔘 ACTION BUTTONS -->
+  <div class="d-flex justify-content-center gap-3">
+
+    <a href="{% url 'product-list' %}" class="btn btn-primary px-4">
+      Continue Shopping
+    </a>
+
+  </div>
+
+</div>
 
 {% endblock content %}

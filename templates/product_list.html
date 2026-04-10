@@ -1,32 +1,104 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form action="" method="get">
-  <input type="text" name="q" placeholder="Search by title or category" value="{{ request.GET.q }}">
-  <button type="submit" class="btn btn-outline-secondary">Search</button>
-</form>
+<!-- 🔍 SEARCH BAR -->
+<div class="row mb-4">
+  <div class="col-md-6 mx-auto">
+    <form method="get" class="input-group shadow-sm">
+      <input type="text" name="q" class="form-control" placeholder="Search products..."
+             value="{{ request.GET.q }}">
+      <button class="btn btn-primary">
+        <i class="bi bi-search"></i>
+      </button>
+    </form>
+  </div>
+</div>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
+<!-- 🛍 PRODUCT GRID -->
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+
   {% for product in products %}
   <div class="col">
-    <div class="card h-100">
-      <a href="{% url 'product-detail' product.pk %}">
-        <img src="{{ product.image.url }}" class="card-img-top" alt="..." width="350" height="350">
-      </a>
-      <div class="card-body">
-        <h5 class="card-title"><a href="{% url 'product-detail' product.pk %}"
-            class="text-decoration-none fst-italic text-dark">{{ product.name }}</a></h5>
-        <p class="card-text"><strong>Price:</strong>{{ product.price }}</p>
-        <p class="card-text"><strong>Category:</strong>{{ product.category }}</p>
-        <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-outline-secondary">
-          ❤️ Add to Wishlist
-        </a>
-        <a href="{% url 'add-cart' product.pk %}" class="btn btn-outline-secondary">Add To Cart</a>
 
+    <div class="card h-100 border-0 shadow-sm product-card">
+
+      <!-- IMAGE -->
+      <div class="position-relative overflow-hidden">
+        <a href="{% url 'product-detail' product.pk %}">
+          <img src="{{ product.image.url }}"
+               class="card-img-top product-img"
+               alt="{{ product.name }}">
+        </a>
+
+        <!-- QUICK ACTIONS (hover) -->
+        <div class="product-overlay d-flex justify-content-center gap-2">
+          <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-light btn-sm">
+            ❤️
+          </a>
+          <a href="{% url 'add-cart' product.pk %}" class="btn btn-dark btn-sm">
+            🛒
+          </a>
+        </div>
       </div>
+
+      <!-- BODY -->
+      <div class="card-body">
+        <h6 class="card-title mb-1">
+          <a href="{% url 'product-detail' product.pk %}"
+             class="text-decoration-none text-dark">
+             {{ product.name }}
+          </a>
+        </h6>
+
+        <small class="text-muted">{{ product.category }}</small>
+
+        <div class="d-flex justify-content-between align-items-center mt-2">
+          <span class="fw-bold text-primary">Rs. {{ product.price }}</span>
+        </div>
+      </div>
+
     </div>
+
   </div>
   {% endfor %}
 
 </div>
+
+<!-- 🎨 CUSTOM STYLES -->
+<style>
+.product-card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-img {
+  height: 220px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-img {
+  transform: scale(1.05);
+}
+
+/* Overlay buttons */
+.product-overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.product-card:hover .product-overlay {
+  opacity: 1;
+}
+</style>
+
 {% endblock content %}
+
